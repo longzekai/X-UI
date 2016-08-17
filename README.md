@@ -5,6 +5,39 @@ X-UI
 <br>
 <br>
 该库旨在减少常用页面风格Activity或Fragment的代码量，包含了很多常用的操作，<br>且大部分功能都暴露了定制接口。如果你的应用页面风格属于非主流的，可绕道。
+Use Description
+====
+```java
+public class YourApplication extends XUIApplication {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        MemroyLeakManager.getInstance().initLeakCanary(State.DEBUG,this);
+        XUIConfig.setXUIRedStyle();
+//        XUIConfig.setUseSwipeBack(false);
+//        XUIConfig.setTopBarHeight(R.dimen.topBarHeight);
+//        XUIConfig.setTopBarNavigationIcon(com.xapp.jjh.xui.R.mipmap.back_icon);
+//        XUIConfig.setTopBarBgColor(R.color.top_bar_bg);
+//        XUIConfig.setStatusBarColor(R.color.status_bar_bg);
+//        XUIConfig.setTopBarTitleTextSize(15);
+//        XUIConfig.setTopBarMenuTextColor(R.color.top_bar_title_color);
+//        XUIConfig.setTopBarTitleTextColor(R.color.top_bar_title_color);
+//        XUIConfig.setTopBarMenuTextSize(12);
+    }
+
+}
+```
+<br>
+```java
+<application
+		android:theme="@style/XUIBaseTheme"
+        android:name=".app.DemoApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        >
+```
 XUIApplication
 ====
 实现了ActivityLifecycleCallbacks接口，在接口的回调方法中，可监控应用内所有的Activity生命周期的变化，<br>
