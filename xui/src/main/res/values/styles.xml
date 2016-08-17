@@ -1,16 +1,7 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <!-- application theme. -->
-    <style name="XUITheme" parent="UIAppTheme">
+    <style name="XUIBaseTheme" parent="UIAppTheme">
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">true</item>
         <!-- 设置activity切换动画 -->
@@ -18,7 +9,7 @@
     </style>
 
     <!-- ikan mainpage theme. no trabslucent -->
-    <style name="XUIMainPageTheme" parent="UIAppTheme">
+    <style name="XUIBaseNoTransTheme" parent="UIAppTheme">
         <!-- Customize your theme here. -->
         <item name="android:windowIsTranslucent">false</item>
         <!-- 设置activity切换动画 -->
@@ -28,6 +19,11 @@
     <!-- AppTheme no title bar-->
     <style name="UIAppTheme" parent="AppBaseTheme">
 
+    </style>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

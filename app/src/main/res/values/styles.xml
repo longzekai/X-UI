@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="XUITheme">
+    <style name="AppTheme" parent="XUIBaseTheme">
 
     </style>
 

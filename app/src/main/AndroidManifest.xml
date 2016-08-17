@@ -12,7 +12,7 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/XUIMainPageTheme">
+            android:theme="@style/XUIBaseNoTransTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" android:screenOrientation="portrait"
-            android:theme="@style/XUIMainPageTheme"/>
+            android:theme="@style/XUIBaseNoTransTheme"/>
         <activity android:name=".SecondActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ThirdActivity" android:screenOrientation="portrait"/>
         <activity android:name=".FourthActivity" android:screenOrientation="portrait"/>
