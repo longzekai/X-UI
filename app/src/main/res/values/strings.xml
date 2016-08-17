@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">XUIDemo</string>
+
+    <string name="test_menu">MENU</string>
+
+    <string name="desc">The demo based on XUI library, If you find some problems, please contact me,tks. \n Email:309812983@qq.com </string>
+
+    <string name="text_menu">TEXT</string>
+</resources>
