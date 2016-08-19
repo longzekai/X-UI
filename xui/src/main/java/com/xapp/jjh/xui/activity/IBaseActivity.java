@@ -21,6 +21,7 @@ public abstract class IBaseActivity extends AppCompatActivity implements IBaseIn
 
     protected int theme = R.style.AppBaseTheme;
     protected LayoutInflater mLayoutInflater;
+    protected View mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public abstract class IBaseActivity extends AppCompatActivity implements IBaseIn
 
     @Override
     public void setContentView(View view) {
+        mRootView = view;
         super.setContentView(view);
     }
 

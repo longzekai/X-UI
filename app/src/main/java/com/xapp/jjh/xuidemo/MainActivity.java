@@ -48,6 +48,11 @@ public class MainActivity extends TopBarActivity {
             public void onRightClick(Dialog dialog) {
                 ActivityStackManager.getInstance().AppExit();
             }
+            @Override
+            public void onLeftClick(Dialog dialog) {
+                super.onLeftClick(dialog);
+                showSnackBar("hello", null,null);
+            }
         });
     }
 

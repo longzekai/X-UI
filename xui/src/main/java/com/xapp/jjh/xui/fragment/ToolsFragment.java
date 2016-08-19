@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.view.ContextThemeWrapper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import com.xapp.jjh.xui.R;
 import com.xapp.jjh.xui.engine.DialogEngine;
 import com.xapp.jjh.xui.inter.DialogListener;
 import com.xapp.jjh.xui.inter.IToolsInterface;
@@ -29,16 +30,35 @@ public abstract class ToolsFragment extends FilterFragment implements IToolsInte
     }
 
     protected View inflate(int res){
-        return inflate(res, R.style.AppBaseTheme);
+        return inflate(res, 0);
     }
 
     protected View inflate(int res, int theme) {
-        return LayoutInflater.from(new ContextThemeWrapper(mContext, theme)).inflate(res, null);
+        if(theme==0){
+            return LayoutInflater.from(getActivity()).inflate(res, null);
+        }
+        return LayoutInflater.from(new ContextThemeWrapper(getActivity(), theme)).inflate(res, null);
     }
 
     @Override
     public void showToast(String message) {
         ToastUtils.showShortToast(mContext,message);
+    }
+
+    @Override
+    public void showSnackBar(String message, String action, View.OnClickListener onClickListener) {
+        showSnackBar(message, Snackbar.LENGTH_SHORT, action, onClickListener);
+    }
+
+    @Override
+    public void showSnackBar(String message, int duration, String action, View.OnClickListener onClickListener) {
+        if(mUserView!=null && !TextUtils.isEmpty(message)){
+            if(TextUtils.isEmpty(action)){
+                Snackbar.make(mUserView,message,duration).show();
+            }else {
+                Snackbar.make(mUserView,message,duration).setAction(action,onClickListener).show();
+            }
+        }
     }
 
     @Override

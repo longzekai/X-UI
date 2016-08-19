@@ -6,7 +6,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.view.ContextThemeWrapper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -33,11 +35,14 @@ public abstract class ToolsActivity extends FilterActivity implements IToolsInte
     }
 
     protected View inflate(int res){
-        return inflate(res, theme);
+        return inflate(res, 0);
     }
 
     protected View inflate(int res, int theme) {
-        return LayoutInflater.from(new ContextThemeWrapper(getApplicationContext(), theme)).inflate(res, null);
+        if(theme==0){
+            return LayoutInflater.from(this).inflate(res, null);
+        }
+        return LayoutInflater.from(new ContextThemeWrapper(this, theme)).inflate(res, null);
     }
 
     @SuppressLint("NewApi")
@@ -56,6 +61,22 @@ public abstract class ToolsActivity extends FilterActivity implements IToolsInte
     @Override
     public void showToast(String message) {
         ToastUtils.showShortToast(getApplicationContext(),message);
+    }
+
+    @Override
+    public void showSnackBar(String message, String action, View.OnClickListener onClickListener) {
+        showSnackBar(message, Snackbar.LENGTH_SHORT, action, onClickListener);
+    }
+
+    @Override
+    public void showSnackBar(String message, int duration, String action, View.OnClickListener onClickListener) {
+        if(mRootView!=null && !TextUtils.isEmpty(message)){
+            if(TextUtils.isEmpty(action)){
+                Snackbar.make(mRootView,message,duration).show();
+            }else {
+                Snackbar.make(mRootView,message,duration).setAction(action,onClickListener).show();
+            }
+        }
     }
 
     @Override

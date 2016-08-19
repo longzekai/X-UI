@@ -2,6 +2,7 @@ package com.xapp.jjh.xuidemo.fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by Taurus on 2016/8/15.
  * ------------------------------------
  */
-public class CountyFragment extends LoadingFragment{
+public class CountyFragment extends LoadingFragment implements ListAdapter.OnItemClickListener {
 
     private RecyclerView mRecycler;
 
@@ -40,6 +41,7 @@ public class CountyFragment extends LoadingFragment{
                     list = (List<County>) msg.obj;
                     listAdapter = new ListAdapter(mContext, list,id);
                     mRecycler.setAdapter(listAdapter);
+                    listAdapter.setOnItemClickListener(CountyFragment.this);
                     mRecycler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -110,5 +112,15 @@ public class CountyFragment extends LoadingFragment{
     @Override
     public void setListener() {
 
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder holder, int position) {
+        showSnackBar("fragment message", Snackbar.LENGTH_LONG,"Action", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast("action click");
+            }
+        });
     }
 }
