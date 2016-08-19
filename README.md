@@ -111,6 +111,9 @@ public interface IToolsInterface {
     <T extends View> T findView(int id);
     /** show toast , default is short toast*/
     void showToast(String message);
+    /** show snackbar*/
+    void showSnackBar(String message,String action,View.OnClickListener onClickListener);
+    void showSnackBar(String message,int duration, String action,View.OnClickListener onClickListener);
     /** show dialog */
     void showDialog(String message,DialogListener dialogListener);
     void showDialog(DialogInfo dialogInfo, DialogListener dialogListener);
