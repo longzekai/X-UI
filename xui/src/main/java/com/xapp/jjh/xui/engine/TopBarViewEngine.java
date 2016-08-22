@@ -1,11 +1,9 @@
 package com.xapp.jjh.xui.engine;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +45,10 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
         this.mContentView = contentView;
         this.iTopBarInterface = iTopBarInterface;
         this.topBarListener = topBarListener;
-        setBackgroundColor(Color.WHITE);
+        setBackgroundColor(Color.TRANSPARENT);
         fillContent();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void fillContent() {
         if(iTopBarInterface==null)
             return;
@@ -211,7 +208,6 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
 
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void handleCustomTopBar(){
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);

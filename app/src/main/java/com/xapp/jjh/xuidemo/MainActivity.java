@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends TopBarActivity {
 
+    private String TAG = "MainActivity";
     private RadioButton rbProvince;
     private RadioButton rbCity;
     private RadioButton rbCounty;
@@ -82,6 +83,11 @@ public class MainActivity extends TopBarActivity {
         rbProvince.setOnClickListener(this);
         rbCity.setOnClickListener(this);
         rbCounty.setOnClickListener(this);
+    }
+
+    @Override
+    public void setListener() {
+        super.setListener();
     }
 
     @Subscribe
