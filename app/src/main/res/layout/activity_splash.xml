@@ -30,7 +30,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:text="based on xui 2016/08/15"/>
+            android:text="Based on X-UI  2016/08/15"/>
     </RelativeLayout>
 
 </RelativeLayout>
