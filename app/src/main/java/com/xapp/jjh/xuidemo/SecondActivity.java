@@ -32,7 +32,7 @@ public class SecondActivity extends TopBarActivity {
 
     @Override
     public void initData() {
-        setTopBarTitle("SECOND");
+        setTopBarTitle("SECONDXXXXXXXXXXXXXXXXXXXXX");
         setMenuType(MenuType.TEXT,R.string.test_menu);
         setPageState(PageState.LOADING);
         new Handler().postDelayed(new Runnable() {

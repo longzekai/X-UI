@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -399,7 +400,7 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
         }else if(type == MenuType.TEXT){
             findViewById(R.id.menu_icon).setVisibility(View.GONE);
             findViewById(R.id.menu_text).setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.menu_text)).setText(resId);
+            setMenuText(getContext().getString(resId));
         }
     }
 
@@ -450,7 +451,10 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
             }
         });
         popupWindow.update();
-        popupWindow.showAsDropDown(getMenuView(),0,0);
+        int[] location = new int[2];
+        getMenuView().getLocationOnScreen(location);
+        popupWindow.setAnimationStyle(R.style.menu_pop);
+        popupWindow.showAtLocation(getMenuView(), Gravity.NO_GRAVITY,location[0],location[1]);
     }
 
     @Override
@@ -458,7 +462,18 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
         if(isCustomTopBar)
             return;
         if(menuType == MenuType.TEXT){
-            ((TextView)findViewById(R.id.menu_text)).setText(menuText);
+            final TextView menuView = ((TextView)findViewById(R.id.menu_text));
+            menuView.setText(menuText);
+            menuView.post(new Runnable() {
+                @Override
+                public void run() {
+                    int width = menuView.getWidth();
+                    View titleView = getTitleView();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) titleView.getLayoutParams();
+                    params.rightMargin = width;
+                    titleView.setLayoutParams(params);
+                }
+            });
         }
     }
 

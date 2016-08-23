@@ -102,4 +102,9 @@
         <item name="android:backgroundDimAmount">0.4</item>
     </style>
 
+    <style name="menu_pop">
+        <item name="android:windowEnterAnimation">@anim/scale_menu_show</item>
+        <item name="android:windowExitAnimation">@anim/scale_menu_hidden</item>
+    </style>
+
 </resources>
