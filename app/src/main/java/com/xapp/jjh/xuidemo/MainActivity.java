@@ -11,17 +11,16 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import com.xapp.jjh.xui.activity.TopBarActivity;
 import com.xapp.jjh.xui.bean.BaseMenuItem;
-import com.xapp.jjh.xui.bean.TestMenuItem;
 import com.xapp.jjh.xui.fragment.IBaseFragment;
 import com.xapp.jjh.xui.inter.DialogCallBack;
 import com.xapp.jjh.xui.inter.MenuType;
 import com.xapp.jjh.xui.inter.OnMenuItemClickListener;
 import com.xapp.jjh.xui.utils.ActivityStackManager;
 import com.xapp.jjh.xuidemo.bean.Event;
+import com.xapp.jjh.xuidemo.bean.TestMenuItem;
 import com.xapp.jjh.xuidemo.fragment.CityFragment;
 import com.xapp.jjh.xuidemo.fragment.CountyFragment;
 import com.xapp.jjh.xuidemo.fragment.ProvinceFragment;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -66,17 +65,20 @@ public class MainActivity extends TopBarActivity {
     @Override
     public void onMenuClick() {
         super.onMenuClick();
-        Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
-        startActivity(intent);
-//        List<TestMenuItem> menuItems = new ArrayList<>();
-//        menuItems.add(new TestMenuItem(-1,"menu01"));
-//        menuItems.add(new TestMenuItem(-1,"menu02"));
-//        showMenuList(menuItems, new OnMenuItemClickListener() {
-//            @Override
-//            public void onMenuItemClick(BaseMenuItem menuItem, int position) {
-//                showSnackBar(menuItem.getItemText(),null,null);
-//            }
-//        });
+        List<TestMenuItem> menuItems = new ArrayList<>();
+        menuItems.add(new TestMenuItem(-1,"SecondActivity"));
+        menuItems.add(new TestMenuItem(-1,"menu02"));
+        showMenuList(menuItems, new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(BaseMenuItem menuItem, int position) {
+                if(position == 0){
+                    Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
+                    startActivity(intent);
+                }else{
+                    showSnackBar(menuItem.getItemText(),null,null);
+                }
+            }
+        });
     }
 
     @Override

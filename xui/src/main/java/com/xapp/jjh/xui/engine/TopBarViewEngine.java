@@ -25,6 +25,7 @@ import com.xapp.jjh.xui.inter.MenuType;
 import com.xapp.jjh.xui.inter.OnMenuItemClickListener;
 import com.xapp.jjh.xui.inter.TopBarListener;
 import com.xapp.jjh.xui.utils.CommonUtils;
+import com.xapp.jjh.xui.view.divider.FlexibleDividerDecoration;
 import com.xapp.jjh.xui.view.divider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -406,25 +407,37 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
     public void showMenuList(List<? extends BaseMenuItem> list, final OnMenuItemClickListener onMenuItemClickListener){
         if(list == null || (list!=null && list.size()<=0))
             return;
-        int size = list.size();
+        final int size = list.size();
         BaseMenuItem item = list.get(0);
         int itemHeightDP = item.getItemHeightDP();
         int itemLineHeightDP = item.getItemPartLineHeightDP();
         int itemLineColor = item.getItemPartLineColor();
         int popHeightDP = size*itemHeightDP + (itemLineHeightDP*(size - 1));
         int heightPx = CommonUtils.dip2px(getContext(),popHeightDP);
-        RecyclerView contentView = new RecyclerView(getContext());
-        final PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,heightPx);
+        View contentView = View.inflate(getContext(),R.layout.layout_menu,null);
+        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler);
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
+        params.height = heightPx;
+        recyclerView.setLayoutParams(params);
+        final PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
-        contentView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         HorizontalDividerItemDecoration.Builder horizontalBuilder = new HorizontalDividerItemDecoration.Builder(getContext());
-        horizontalBuilder.size(CommonUtils.dip2px(getContext(),itemLineHeightDP));
+        final int itemSize = CommonUtils.dip2px(getContext(),itemLineHeightDP);
         horizontalBuilder.color(itemLineColor);
-        contentView.addItemDecoration(horizontalBuilder.build());
+        horizontalBuilder.sizeProvider(new FlexibleDividerDecoration.SizeProvider() {
+            @Override
+            public int dividerSize(int position, RecyclerView parent) {
+                if(position == size - 1)
+                    return 0;
+                return itemSize;
+            }
+        });
+        recyclerView.addItemDecoration(horizontalBuilder.build());
         MenuListAdapter adapter = new MenuListAdapter(list);
-        contentView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
         adapter.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(BaseMenuItem menuItem, int position) {

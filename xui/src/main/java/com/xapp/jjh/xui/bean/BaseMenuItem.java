@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class BaseMenuItem implements Serializable {
     private final int DEFAULT_ITEM_HEIGHT_DP = 50;
     private final int DEFAULT_ITEM_PART_LINE_HEIGHT_DP = 1;
-    private final int DEFAULT_ITEM_PART_LINE_Color = 0xcccccc;
+    private final int DEFAULT_ITEM_PART_LINE_Color = 0x55000000;
     private final int DEFAULT_ITEM_TEXT_COLOR = 0xffffff;
     private final int DEFAULT_ITEM_TEXT_SIZE_SP = 13;
     private final int DEFAULT_ITEM_BACKGROUND_DRAWABLE = R.drawable.selector_default_menu_item;
