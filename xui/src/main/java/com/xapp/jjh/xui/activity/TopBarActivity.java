@@ -3,12 +3,16 @@ package com.xapp.jjh.xui.activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.xapp.jjh.xui.R;
+import com.xapp.jjh.xui.bean.BaseMenuItem;
 import com.xapp.jjh.xui.config.XUIConfig;
 import com.xapp.jjh.xui.engine.TopBarViewEngine;
 import com.xapp.jjh.xui.inter.ITopBarHandle;
 import com.xapp.jjh.xui.inter.ITopBarInterface;
 import com.xapp.jjh.xui.inter.MenuType;
+import com.xapp.jjh.xui.inter.OnMenuItemClickListener;
 import com.xapp.jjh.xui.inter.TopBarListener;
+
+import java.util.List;
 
 /**
  * ------------------------------------
@@ -163,6 +167,13 @@ public abstract class TopBarActivity extends LoadStateActivity implements ITopBa
     public void setMenuType(MenuType type, int resId) {
         if(mTopBarViewEngine!=null){
             mTopBarViewEngine.setMenuType(type, resId);
+        }
+    }
+
+    @Override
+    public void showMenuList(List<? extends BaseMenuItem> list, OnMenuItemClickListener onMenuItemClickListener){
+        if(mTopBarViewEngine!=null){
+            mTopBarViewEngine.showMenuList(list, onMenuItemClickListener);
         }
     }
 

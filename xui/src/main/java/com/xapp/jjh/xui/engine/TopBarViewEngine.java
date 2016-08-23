@@ -3,21 +3,32 @@ package com.xapp.jjh.xui.engine;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.xapp.jjh.xui.R;
+import com.xapp.jjh.xui.bean.BaseMenuItem;
 import com.xapp.jjh.xui.config.XUIConfig;
 import com.xapp.jjh.xui.inter.ITopBarHandle;
 import com.xapp.jjh.xui.inter.ITopBarInterface;
 import com.xapp.jjh.xui.inter.MenuType;
+import com.xapp.jjh.xui.inter.OnMenuItemClickListener;
 import com.xapp.jjh.xui.inter.TopBarListener;
+import com.xapp.jjh.xui.utils.CommonUtils;
+import com.xapp.jjh.xui.view.divider.HorizontalDividerItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ------------------------------------
@@ -392,6 +403,44 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
     }
 
     @Override
+    public void showMenuList(List<? extends BaseMenuItem> list, final OnMenuItemClickListener onMenuItemClickListener){
+        if(list == null || (list!=null && list.size()<=0))
+            return;
+        int size = list.size();
+        BaseMenuItem item = list.get(0);
+        int itemHeightDP = item.getItemHeightDP();
+        int itemLineHeightDP = item.getItemPartLineHeightDP();
+        int itemLineColor = item.getItemPartLineColor();
+        int popHeightDP = size*itemHeightDP + (itemLineHeightDP*(size - 1));
+        int heightPx = CommonUtils.dip2px(getContext(),popHeightDP);
+        RecyclerView contentView = new RecyclerView(getContext());
+        final PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,heightPx);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        contentView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        HorizontalDividerItemDecoration.Builder horizontalBuilder = new HorizontalDividerItemDecoration.Builder(getContext());
+        horizontalBuilder.size(CommonUtils.dip2px(getContext(),itemLineHeightDP));
+        horizontalBuilder.color(itemLineColor);
+        contentView.addItemDecoration(horizontalBuilder.build());
+        MenuListAdapter adapter = new MenuListAdapter(list);
+        contentView.setAdapter(adapter);
+        adapter.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(BaseMenuItem menuItem, int position) {
+                if(popupWindow!=null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                }
+                if(onMenuItemClickListener!=null){
+                    onMenuItemClickListener.onMenuItemClick(menuItem,position);
+                }
+            }
+        });
+        popupWindow.update();
+        popupWindow.showAsDropDown(getMenuView(),0,0);
+    }
+
+    @Override
     public void setMenuText(String menuText) {
         if(isCustomTopBar)
             return;
@@ -406,6 +455,71 @@ public class TopBarViewEngine extends FrameLayout implements ITopBarHandle{
             return;
         if(menuType == MenuType.ICON){
             ((ImageView)findViewById(R.id.menu_icon)).setImageResource(icon);
+        }
+    }
+
+    public class MenuListAdapter extends RecyclerView.Adapter<MenuItemHolder>{
+
+        private List<? extends BaseMenuItem> mList = new ArrayList<>();
+        private OnMenuItemClickListener onMenuItemClickListener;
+
+        public MenuListAdapter(List<? extends BaseMenuItem> list){
+            this.mList = list;
+        }
+
+        public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener) {
+            this.onMenuItemClickListener = onMenuItemClickListener;
+        }
+
+        @Override
+        public MenuItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new MenuItemHolder(View.inflate(getContext(),R.layout.item_menu,null));
+        }
+
+        @Override
+        public void onBindViewHolder(MenuItemHolder holder, final int position) {
+            final BaseMenuItem item = mList.get(position);
+            int backDrawable = item.getItemBackgroundDrawable();
+            int textColor = item.getItemTextColor();
+            int textSizeSP = item.getItemTextSizeSP();
+            int itemHeightDP = item.getItemHeightDP();
+            holder.rl_item_container.setBackgroundResource(backDrawable);
+            ViewGroup.LayoutParams params = holder.rl_item_container.getLayoutParams();
+            params.height = CommonUtils.dip2px(getContext(),itemHeightDP);
+            holder.rl_item_container.setLayoutParams(params);
+            holder.tv_text.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSizeSP);
+            holder.tv_text.setTextColor(textColor);
+            holder.tv_text.setText(item.getItemText());
+            if(item.getIconId()!=-1){
+                holder.iv_icon.setImageResource(item.getIconId());
+            }
+            if(onMenuItemClickListener!=null){
+                holder.itemView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onMenuItemClickListener.onMenuItemClick(item,position);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return mList.size();
+        }
+    }
+
+    public static class MenuItemHolder extends RecyclerView.ViewHolder{
+
+        RelativeLayout rl_item_container;
+        ImageView iv_icon;
+        TextView tv_text;
+
+        public MenuItemHolder(View itemView) {
+            super(itemView);
+            rl_item_container = (RelativeLayout) itemView.findViewById(R.id.rl_item_container);
+            iv_icon = (ImageView) itemView.findViewById(R.id.iv_icon);
+            tv_text = (TextView) itemView.findViewById(R.id.tv_text);
         }
     }
 

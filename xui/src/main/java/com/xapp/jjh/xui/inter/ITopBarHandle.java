@@ -2,6 +2,10 @@ package com.xapp.jjh.xui.inter;
 
 import android.view.View;
 
+import com.xapp.jjh.xui.bean.BaseMenuItem;
+
+import java.util.List;
+
 /**
  * Created by Taurus on 16/8/12.
  */
@@ -38,6 +42,8 @@ public interface ITopBarHandle {
     void setMenuEnable(boolean enable);
     /** set top bar menu type and value for resource id*/
     void setMenuType(MenuType type,int resId);
+    /** show menu list*/
+    void showMenuList(List<? extends BaseMenuItem> list,OnMenuItemClickListener onMenuItemClickListener);
     /** set top bar menu text when menu type is text*/
     void setMenuText(String menuText);
     /** set top bar menu icon when menu type is icon*/
