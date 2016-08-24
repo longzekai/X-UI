@@ -1,5 +1,6 @@
 package com.xapp.jjh.xuidemo;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,9 @@ import com.xapp.jjh.xui.fragment.IBaseFragment;
 import com.xapp.jjh.xui.inter.DialogCallBack;
 import com.xapp.jjh.xui.inter.MenuType;
 import com.xapp.jjh.xui.inter.OnMenuItemClickListener;
+import com.xapp.jjh.xui.lib.permissiongen.PermissionFail;
+import com.xapp.jjh.xui.lib.permissiongen.PermissionGen;
+import com.xapp.jjh.xui.lib.permissiongen.PermissionSuccess;
 import com.xapp.jjh.xui.utils.ActivityStackManager;
 import com.xapp.jjh.xuidemo.bean.Event;
 import com.xapp.jjh.xuidemo.bean.TestMenuItem;
@@ -100,6 +104,28 @@ public class MainActivity extends TopBarActivity {
         rbProvince.setOnClickListener(this);
         rbCity.setOnClickListener(this);
         rbCounty.setOnClickListener(this);
+        PermissionGen.with(MainActivity.this)
+                .addRequestCode(100)
+                .permissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionSuccess(requestCode = 100)
+    public void doSomething(){
+
+    }
+
+    @PermissionFail(requestCode = 100)
+    public void doFailSomething(){
+        showSnackBar("Permission Deny !",null,null);
     }
 
     @Override

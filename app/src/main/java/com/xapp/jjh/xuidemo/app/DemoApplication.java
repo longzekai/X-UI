@@ -4,12 +4,17 @@ package com.xapp.jjh.xuidemo.app;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.xapp.jjh.logtools.config.XLogConfig;
+import com.xapp.jjh.logtools.logger.LogLevel;
+import com.xapp.jjh.logtools.tools.XLog;
 import com.xapp.jjh.xui.application.FilterParams;
 import com.xapp.jjh.xui.application.XUIApplication;
 import com.xapp.jjh.xui.config.XUIConfig;
 import com.xapp.jjh.xuidemo.R;
 import com.xapp.jjh.xuidemo.utils.MemroyLeakManager;
 import com.xapp.jjh.xuidemo.utils.State;
+
+import java.io.File;
 
 /**
  * ------------------------------------
@@ -22,6 +27,11 @@ public class DemoApplication extends XUIApplication {
         super.onCreate();
         MemroyLeakManager.getInstance().initLeakCanary(State.DEBUG,this);
         XUIConfig.setXUIRedStyle();
+        XLog.init(getApplicationContext(),
+                new XLogConfig()
+                        .setLogLevel(LogLevel.FULL)
+                        .setSaveCrashLog(true)
+                        .setLogDir(new File(getApplicationContext().getCacheDir(),"xlog")));
 //        XUIConfig.setUseSwipeBack(false);
 //        XUIConfig.setTopBarHeight(R.dimen.topBarHeight);
 //        XUIConfig.setTopBarNavigationIcon(com.xapp.jjh.xui.R.mipmap.back_icon);

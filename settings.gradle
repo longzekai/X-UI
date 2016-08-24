@@ -1,1 +1,1 @@
-include ':app', ':xui'
+include ':app', ':xui', ':logtools'
